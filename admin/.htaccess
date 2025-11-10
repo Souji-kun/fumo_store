@@ -1,0 +1,31 @@
+# Protect admin directory
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /fumo_store2/admin/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ index.php [L,QSA]
+</IfModule>
+
+# Deny access to configuration files
+<FilesMatch "^.*\.(ini|log|config.php)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# PHP error handling
+php_flag display_errors off
+php_value error_reporting 0
+
+# Set default charset
+AddDefaultCharset UTF-8
+
+# Disable directory browsing
+Options -Indexes
+
+# Protect from XSS attacks
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
