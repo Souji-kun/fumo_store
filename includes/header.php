@@ -1,16 +1,8 @@
-<?php
-if (!defined('INCLUDED_FROM_INDEX')) {
-    require_once __DIR__ . '/config.php';
-    require_once __DIR__ . '/auth_functions.php';
-}
-
-// Initialize variables for asset paths
-$root_path = rtrim(dirname($_SERVER['PHP_SELF']), '/includes');
-$asset_path = $root_path . '/assets';
-?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
+  <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -21,15 +13,23 @@ $asset_path = $root_path . '/assets';
 
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" type="text/css" href="<?php echo $asset_path; ?>/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $asset_path; ?>/css/font-awesome.css">
-    <link rel="stylesheet" href="<?php echo $asset_path; ?>/css/templatemo-hexashop.css">
-    <link rel="stylesheet" href="<?php echo $asset_path; ?>/css/owl-carousel.css">
-    <link rel="stylesheet" href="<?php echo $asset_path; ?>/css/custom-header.css">
-    <link rel="stylesheet" href="<?php echo $asset_path; ?>/css/best-sellers.css">
-    <link rel="stylesheet" href="<?php echo $asset_path; ?>/css/section-divider.css">
-    <link rel="stylesheet" href="<?php echo $asset_path; ?>/css/lightbox.css">
-    <link rel="stylesheet" href="<?php echo $asset_path; ?>/css/sidebar.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
+
+    <link rel="stylesheet" href="assets/css/templatemo-hexashop.css">
+
+    <link rel="stylesheet" href="assets/css/owl-carousel.css">
+    
+    <link rel="stylesheet" href="assets/css/custom-header.css">
+    
+    <link rel="stylesheet" href="assets/css/best-sellers.css">
+    
+    <link rel="stylesheet" href="assets/css/section-divider.css">
+
+    <link rel="stylesheet" href="assets/css/lightbox.css">
+
+    <link rel="stylesheet" href="assets/css/sidebar.css">
 <!--
 
 TemplateMo 571 Hexashop
@@ -60,7 +60,7 @@ https://templatemo.com/tm-571-hexashop
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
                         <a href="index.php" class="logo">
-                            <img src="<?php echo $asset_path; ?>/images/fumo-logo.png">
+                            <img src="assets/images/fumo-logo.png">
                         </a>
                         <!-- ***** Logo End ***** -->
                         
@@ -85,41 +85,10 @@ https://templatemo.com/tm-571-hexashop
                                     <input type="text" placeholder="Search...">
                                     <button><i class="fa fa-search"></i></button>
                                 </div>
-                                <?php if (isLoggedIn()): ?>
-                                    <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <i class="fa fa-user"></i> <?php echo getUserName(); ?>
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="<?php echo SITE_URL; ?>user/profile.php">My Profile</a>
-                                            <a class="dropdown-item" href="<?php echo SITE_URL; ?>user/orders.php">My Orders</a>
-                                            <?php if (isAdmin()): ?>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="<?php echo SITE_URL; ?>admin/">Admin Dashboard</a>
-                                                <a class="dropdown-item" href="<?php echo SITE_URL; ?>product/">Manage Products</a>
-                                                <a class="dropdown-item" href="<?php echo SITE_URL; ?>admin/orders.php">Manage Orders</a>
-                                            <?php endif; ?>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="<?php echo SITE_URL; ?>user/logout.php">Logout</a>
-                                        </div>
-                                    </div>
-                                <?php else: ?>
-                                    <a href="<?php echo SITE_URL; ?>user/login.php" class="login-link">
-                                        <i class="fa fa-user"></i> Login
-                                    </a>
-                                <?php endif; ?>
-                                <a href="<?php echo SITE_URL; ?>cart/" class="cart-icon">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <?php
-                                    if (isLoggedIn()) {
-                                        $user_id = $_SESSION['user_id'];
-                                        $stmt = $pdo->prepare("SELECT COUNT(*) FROM cart_items WHERE user_id = ?");
-                                        $stmt->execute([$user_id]);
-                                        $cart_count = $stmt->fetchColumn();
-                                        echo '<span class="cart-count">' . $cart_count . '</span>';
-                                    }
-                                    ?>
-                                </a>
+                                <a href="login.php" class="login-link"><i class="fa fa-user"></i></a>
+                                <span class="username-area"></span>
+                                <a href="cart.php" class="cart-icon"><i class="fa fa-shopping-cart"></i> <span class="cart-count">0</span></a>
+                                <a href="javascript:void(0)" class="sidebar-toggle"><i class="fa fa-bars"></i></a>
                             </li>
                         </ul>        
                         <a class='menu-trigger'>
@@ -132,29 +101,6 @@ https://templatemo.com/tm-571-hexashop
         </div>
     </header>
     <!-- ***** Header Area End ***** -->
-
-    <!-- jQuery -->
-    <script src="<?php echo $asset_path; ?>/js/jquery-2.1.0.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script src="<?php echo $asset_path; ?>/js/popper.js"></script>
-    <script src="<?php echo $asset_path; ?>/js/bootstrap.min.js"></script>
-
-    <!-- Plugins -->
-    <script src="<?php echo $asset_path; ?>/js/owl-carousel.js"></script>
-    <script src="<?php echo $asset_path; ?>/js/accordions.js"></script>
-    <script src="<?php echo $asset_path; ?>/js/datepicker.js"></script>
-    <script src="<?php echo $asset_path; ?>/js/scrollreveal.min.js"></script>
-    <script src="<?php echo $asset_path; ?>/js/waypoints.min.js"></script>
-    <script src="<?php echo $asset_path; ?>/js/jquery.counterup.min.js"></script>
-    <script src="<?php echo $asset_path; ?>/js/imgfix.min.js"></script> 
-    <script src="<?php echo $asset_path; ?>/js/slick.js"></script> 
-    <script src="<?php echo $asset_path; ?>/js/lightbox.js"></script> 
-    <script src="<?php echo $asset_path; ?>/js/isotope.js"></script> 
-    
-    <!-- Global Init -->
-    <script src="<?php echo $asset_path; ?>/js/custom.js"></script>
-    <script src="<?php echo $asset_path; ?>/js/quantity.js"></script>
     
     <?php include 'includes/sidebar.php'; ?>
     
