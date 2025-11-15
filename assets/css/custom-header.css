@@ -92,12 +92,10 @@ header .container {
     padding: 0 4px;
     border-radius: 8px;
     z-index: 2;  /* Keep count above the icon */
-}
-
-@media screen and (max-width: 991px) {
-    .nav li.user-section {
-        display: none;
-    }
+}@media screen and (max-width: 991px) {
+  .nav li.user-section {
+    display: none;
+  }
 }
 
 /* Make the whole nav a flex container */
@@ -134,4 +132,118 @@ header .container {
   display: flex;
   align-items: center;
   gap: 12px;                 /* spacing between search, login, cart, sidebar */
+}
+
+/* Ensure header has breathing room */
+.header-area {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* Prevent content from overlapping header */
+body {
+  padding-top: 80px; /* match your header height */
+}
+
+/* Standardize spacing for page containers */
+.container-xl {
+  margin-top: 2rem;
+}
+
+/* Fix submenu spacing */
+.main-nav ul li.submenu ul {
+  margin-top: 0.5rem;
+}
+
+/* Reduce overall font size in header */
+.header-area .main-nav ul.nav li a,
+.header-area .main-nav .user-section a,
+.header-area .main-nav .user-section span {
+  font-size: 0.9rem;   /* slightly smaller text */
+}
+
+/* Reduce horizontal padding around nav links */
+.header-area .main-nav ul.nav li {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* Ensure header has fixed left/right spacing */
+.header-area .container {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+/* Adjust user section so it doesn't force wrap */
+.header-area .main-nav .user-section {
+  gap: 8px;            /* tighter spacing between items */
+  font-size: 0.85rem;  /* slightly smaller text */
+}
+
+/* Prevent nav items from wrapping prematurely */
+.header-area .main-nav ul.nav {
+  flex-wrap: nowrap;
+}
+
+/* Shrink font size in user section */
+.header-area .main-nav .user-section,
+.header-area .main-nav .user-section a,
+.header-area .main-nav .user-section span {
+  font-size: 0.85rem;   /* smaller text */
+  white-space: nowrap;  /* prevent wrapping */
+}
+
+/* Truncate long email addresses */
+.header-area .main-nav .username-area {
+  max-width: 180px;     /* adjust width */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Reduce horizontal padding around nav links */
+.header-area .main-nav ul.nav li {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+/* Fix container spacing: 50px left/right */
+.header-area .container {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+/* Keep nav items in one row */
+.header-area .main-nav ul.nav {
+  flex-wrap: nowrap;
+}
+
+/* Shrink font size in user section */
+.header-area .main-nav .user-section,
+.header-area .main-nav .user-section a,
+.header-area .main-nav .user-section span {
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* Truncate long email addresses */
+.header-area .main-nav .username-area {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* Reduce horizontal padding around nav links */
+.header-area .main-nav ul.nav li {
+  padding: 0 6px;
+}
+
+/* Fix container spacing: 50px left/right */
+.header-area .container {
+  padding-left: 50px;
+  padding-right: 50px;
 }

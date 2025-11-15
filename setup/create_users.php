@@ -48,6 +48,14 @@ $adminUser = [
     'role' => 'admin'
 ];
 
+// Create a default admin user (password: admin123)
+$customerUser = [
+    'username' => 'user',
+    'email' => 'user@fumostore.com',
+    'password' => password_hash('fumo_user', PASSWORD_DEFAULT),
+    'role' => 'user'
+];
+
 // Check if admin exists
 $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
 $stmt->bind_param("s", $adminUser['email']);

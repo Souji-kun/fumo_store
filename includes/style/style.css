@@ -305,3 +305,33 @@ body{
     float: right;
     
     }
+
+    /* Ensure header always has breathing room */
+.navbar, .site-header {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Push content down so it doesn't overlap header */
+body {
+    padding-top: 70px; /* adjust to match your header height */
+}
+
+/* Standardize spacing for all page containers */
+.container-xl {
+    margin-top: 2rem;
+}
+
+/* Profile image sizing */
+.img-account-profile {
+    width: 150px;
+    height: 150px;
+    object-fit: cover; /* crop/scale to fit circle */
+}
+
+/* Readonly inputs styled like normal */
+.readonly-input[readonly] {
+    background-color: #fff;
+    opacity: 1;
+    cursor: default;
+}

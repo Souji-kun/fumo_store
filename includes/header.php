@@ -26,8 +26,6 @@ require_once(__DIR__ . '/../includes/config.php'); // adjust path if needed
 
     <link rel="stylesheet" href="/fumo_store2/assets/css/owl-carousel.css">
     
-    <link rel="stylesheet" href="/fumo_store2/assets/css/custom-header.css">
-    
     <link rel="stylesheet" href="/fumo_store2/assets/css/best-sellers.css">
 
     <link rel="stylesheet" href="/fumo_store2/assets/css/plush.css">
@@ -37,6 +35,8 @@ require_once(__DIR__ . '/../includes/config.php'); // adjust path if needed
     <link rel="stylesheet" href="/fumo_store2/assets/css/lightbox.css">
 
     <link rel="stylesheet" href="/fumo_store2/assets/css/sidebar.css">
+
+    <link rel="stylesheet" href="/fumo_store2/assets/css/custom-header.css">
 <!--
 
 TemplateMo 571 Hexashop
@@ -59,19 +59,19 @@ https://templatemo.com/tm-571-hexashop
                                 <!-- ***** Preloader End ***** -->
   <!-- loading screen problem -->   
     
-     <header class="header-area header-sticky">
+     <header class="header-area header-sticky py-3">
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <nav class="main-nav">
+                <nav class="main-nav d-flex align-items-center">
                     <!-- ***** Logo Start ***** -->
-                    <a href="index.php" class="logo">
+                    <a href="index.php" class="logo me-3">
                         <img src="/fumo_store2/assets/images/fumo-logo.png">
                     </a>
                     <!-- ***** Logo End ***** -->
                     
                    <!-- ***** Menu Start ***** -->
-                    <ul class="nav">
+                    <ul class="nav ms-auto">
                         <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                             <li class="scroll-to-section"><a href="<?php echo $baseUrl; ?>admin/item/index.php">Products</a></li>
@@ -87,9 +87,9 @@ https://templatemo.com/tm-571-hexashop
                         <li class="submenu">
                             <a href="#">Pages</a>
                             <ul>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="products.html">Products</a></li>
-                                <li><a href="single-product.html">Single Product</a></li>
+                                <li><a href="/fumo_store2/user/profile.php">Profile</a></li>
+                                <li><a href="products.html">About Us</a></li>
+                                <li><a href="single-product.html">Products</a></li>
                                 <li><a href="contact.html">Contact Us</a></li>
                             </ul>
                         </li>
