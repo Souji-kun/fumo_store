@@ -85,7 +85,7 @@ https://templatemo.com/tm-571-hexashop
                                     <input type="text" placeholder="Search...">
                                     <button><i class="fa fa-search"></i></button>
                                 </div>
-                                <a href="login.php" class="login-link"><i class="fa fa-user"></i></a>
+                                <a href="user/login.php" class="login-link"><i class="fa fa-user"></i></a>
                                 <span class="username-area"></span>
                                 <a href="cart.php" class="cart-icon"><i class="fa fa-shopping-cart"></i> <span class="cart-count">0</span></a>
                                 <a href="javascript:void(0)" class="sidebar-toggle"><i class="fa fa-bars"></i></a>

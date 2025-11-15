@@ -1,98 +1,64 @@
 <?php
-require_once '../includes/config.php';
-include_once '../includes/header.php';
+session_start();
+require_once(__DIR__ . '/../includes/config.php'); // go up one, then into includes
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
-    $remember = isset($_POST['remember']);
-    
-    $errors = [];
+include(BASE_PATH . 'includes/admin_header.php');
 
-    if (empty($username)) {
-        $errors[] = "Username is required";
-    }
-
-    if (empty($password)) {
-        $errors[] = "Password is required";
-    }
-
-    if (empty($errors)) {
-        // Get user from database
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
-        $stmt->execute([$username]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user && password_verify($password, $user['password'])) {
-            // Set session variables
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-
-            // If remember me is checked, set a cookie
-            if ($remember) {
-                $token = bin2hex(random_bytes(32));
-                setcookie('remember_token', $token, time() + 60*60*24*30, '/'); // 30 days
-                
-                // Store token in database (you'd need a remember_tokens table)
-                // This is just a basic example, in production you'd want to use a more secure method
-                $stmt = $pdo->prepare("UPDATE users SET remember_token = ? WHERE id = ?");
-                $stmt->execute([$token, $user['id']]);
-            }
-
-            header("Location: ../index.php");
-            exit();
-        } else {
-            $errors[] = "Invalid username or password";
-        }
+if (isset($_POST['submit'])) {
+  
+    $email = trim($_POST['email']);
+    $pass = sha1(trim($_POST['password']));
+    $sql = "SELECT id, email, role FROM users WHERE email=? AND password=? LIMIT 1";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, 'ss', $email, $pass);
+    mysqli_stmt_execute($stmt);
+    // $result = mysqli_query($conn, $sql);
+    // var_dump($result);
+    mysqli_stmt_store_result($stmt);
+    mysqli_stmt_bind_result($stmt, $user_id, $email, $role);
+    if (mysqli_stmt_num_rows($stmt) === 1) {
+        mysqli_stmt_fetch($stmt);
+       
+        $_SESSION['email'] = $email;
+        $_SESSION['user_id'] = $user_id;
+        $_SESSION['role'] = $role;
+        header("Location: ../index.php");
+    } else {
+        $_SESSION['message'] = 'wrong email or password';
     }
 }
+
 ?>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Login</h3>
-                </div>
-                <div class="card-body">
-                    <?php if (!empty($errors)): ?>
-                        <div class="alert alert-danger">
-                            <?php foreach ($errors as $error): ?>
-                                <p class="mb-0"><?php echo $error; ?></p>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
-
-                    <form method="POST" action="login.php">
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" 
-                                   value="<?php echo $_POST['username'] ?? ''; ?>" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="remember" name="remember">
-                                <label class="custom-control-label" for="remember">Remember me</label>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
-
-                    <hr>
-                    <p class="mb-0">Don't have an account? <a href="register.php">Register here</a></p>
-                </div>
-            </div>
+<div class="section-divider"></div>
+<div class="container mt-5 pt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <?php include("../includes/alert.php"); ?>
+      <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+          <input type="email" id="form2Example1" class="form-control" name="email" />
+          <label class="form-label" for="form2Example1">Email address</label>
         </div>
-    </div>
-</div>
 
-<?php include_once '../includes/footer.php'; ?>
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+          <input type="password" id="form2Example2" class="form-control" name="password" />
+          <label class="form-label" for="form2Example2">Password</label>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4" name="submit">Sign in</button>
+
+        <!-- Register buttons -->
+        <div class="text-center">
+          <p>Not a member? <a href="register.php">Register</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<?php
+include(BASE_PATH . 'includes/footer.php');
+?>
