@@ -1,7 +1,7 @@
 (function ($) {
 	
 	"use strict";
-	$('.owl-men-item').owlCarousel({
+	$('.owl-plush-item').owlCarousel({
 		items:5,
 		loop:true,
 		dots: true,
@@ -58,7 +58,7 @@
 		 }
 	 })
 
-	$('.owl-men-item:last').owlCarousel({
+	$('.owl-plush-item:last').owlCarousel({
 		items:5,
 		loop:true,
 		dots: true,
@@ -78,6 +78,25 @@
 	 })
 
 	$('.owl-best-item').owlCarousel({
+		items:5,
+		loop:true,
+		dots: true,
+		nav: true,
+		margin:30,
+		  responsive:{
+			  0:{
+				  items:1
+			  },
+			  600:{
+				  items:2
+			  },
+			  1000:{
+				  items:3
+			  }
+		 }
+	 })
+
+	 $('.owl-plush-item').owlCarousel({
 		items:5,
 		loop:true,
 		dots: true,

@@ -1,34 +1,50 @@
 <?php
 session_start();
-require_once(__DIR__ . '/../includes/config.php'); // go up one, then into includes
+require_once(__DIR__ . '/../includes/config.php');
+include(BASE_PATH . 'includes/header.php');
+?>
+<?php
+    if (isset($_POST['submit'])) {
+        $emailInput = trim($_POST['email']);
+        $passInput  = sha1(trim($_POST['password']));
 
-include(BASE_PATH . 'includes/admin_header.php');
+        $sql = "SELECT id, email, role FROM users WHERE email=? AND password=? LIMIT 1";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, 'ss', $emailInput, $passInput);
+        mysqli_stmt_execute($stmt);
 
-if (isset($_POST['submit'])) {
-  
-    $email = trim($_POST['email']);
-    $pass = sha1(trim($_POST['password']));
-    $sql = "SELECT id, email, role FROM users WHERE email=? AND password=? LIMIT 1";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ss', $email, $pass);
-    mysqli_stmt_execute($stmt);
-    // $result = mysqli_query($conn, $sql);
-    // var_dump($result);
-    mysqli_stmt_store_result($stmt);
-    mysqli_stmt_bind_result($stmt, $user_id, $email, $role);
+        mysqli_stmt_store_result($stmt);
+        mysqli_stmt_bind_result($stmt, $user_id, $user_email, $role);
+
     if (mysqli_stmt_num_rows($stmt) === 1) {
         mysqli_stmt_fetch($stmt);
-       
-        $_SESSION['email'] = $email;
+
+        $_SESSION['email']   = $user_email;
         $_SESSION['user_id'] = $user_id;
-        $_SESSION['role'] = $role;
+        $_SESSION['role']    = $role;
+
         header("Location: ../index.php");
+        exit();
     } else {
-        $_SESSION['message'] = 'wrong email or password';
+        $_SESSION['message'] = 'Wrong email or password';
     }
 }
 
+include(BASE_PATH . 'includes/header.php');
 ?>
+
+<?php
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+    $sidebarPath = BASE_PATH . 'includes/sidebar.php';
+    if (file_exists($sidebarPath)) {
+        include($sidebarPath);
+    }
+}
+?>
+
+<?php if (isset($_SESSION['email'])): ?>
+    <p>Welcome, <?php echo htmlspecialchars($_SESSION['email']); ?></p>
+<?php endif; ?>
 
 <div class="section-divider"></div>
 <div class="container mt-5 pt-5">

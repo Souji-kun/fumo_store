@@ -99,3 +99,39 @@ header .container {
         display: none;
     }
 }
+
+/* Make the whole nav a flex container */
+.header-area .main-nav {
+  display: flex;
+  align-items: center;       /* vertical centering */
+  justify-content: space-between;
+  min-height: 80px;          /* match header height */
+}
+
+/* Reset logo alignment */
+.header-area .main-nav .logo {
+  float: none;               /* stop float positioning */
+  line-height: normal;       /* remove artificial vertical offset */
+  display: flex;
+  align-items: center;       /* center the image in the flex row */
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.header-area .main-nav .logo img {
+  display: block;
+  max-height: 50px;          /* adjust to match nav text size */
+}
+
+/* Ensure nav and user section align in the same row */
+.header-area .main-nav ul.nav {
+  display: flex;
+  align-items: center;
+  margin-top: 0;             /* remove top margin pushing links down */
+}
+
+.header-area .main-nav .user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;                 /* spacing between search, login, cart, sidebar */
+}
