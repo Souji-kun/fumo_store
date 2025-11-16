@@ -9,17 +9,19 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+$userId = $_SESSION['user_id'];
+
 // ✅ Fetch user profile details
 $stmt = mysqli_prepare($conn, "SELECT username, lastname, firstname, address, city, zipcode, phone, profile_image 
                                FROM customer WHERE user_id=? LIMIT 1");
-mysqli_stmt_bind_param($stmt, "i", $_SESSION['user_id']);
+mysqli_stmt_bind_param($stmt, "i", $userId);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_bind_result($stmt, $uname, $lname, $fname, $address, $city, $zipcode, $phone, $profileImage);
 mysqli_stmt_fetch($stmt);
 mysqli_stmt_close($stmt);
 
 // fallback if no image
-$imgSrc = $profileImage ? $profileImage : "http://bootdey.com/img/Content/avatar/avatar1.png";
+$imgSrc = !empty($profileImage) ? $profileImage : "../uploads/pf_img/default.jpg";
 
 // ✅ Include header AFTER processing
 if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
@@ -30,18 +32,10 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
 ?>
 
 <style>
-/* ✅ Ensure profile image fits container */
 .img-account-profile {
-    width: 265px;   /* match default avatar size */
+    width: 265px;
     height: 265px;
-    object-fit: cover; /* crop/scale to fit */
-}
-
-/* ✅ Readonly inputs styled like normal */
-.readonly-input[readonly] {
-    background-color: #fff;
-    opacity: 1;
-    cursor: default;
+    object-fit: cover;
 }
 </style>
 
@@ -57,18 +51,24 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
             <div class="card mb-4 mb-xl-0">
                 <div class="card-header">Profile Picture</div>
                 <div class="card-body text-center">
-                    <img id="profilePreview" class="img-account-profile rounded-circle mb-2"
-                         src="<?php echo htmlspecialchars($imgSrc); ?>" alt="Profile Image">
-                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                    
-                    <!-- ✅ Image upload with preview -->
-                    <form action="upload.php" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="type" value="profile">
-                        <label class="btn btn-primary mt-2">
-                            Choose Image
-                            <input type="file" name="image" accept="image/jpeg,image/png" hidden
-                                   onchange="previewImage(this)">
-                        </label>
+                    <!-- Form 1: Image upload -->
+                    <form action="../admin/upload.php" method="POST" enctype="multipart/form-data">
+                        <div class="row align-items-center">
+                            <!-- Profile image preview -->
+                            <div class="col-md-12 text-center">
+                                <img id="profilePreview" class="img-account-profile rounded-circle mb-2"
+                                    src="<?php echo htmlspecialchars($imgSrc); ?>" alt="Profile Image">
+                                <div class="small font-italic text-muted mb-2">JPG or PNG no larger than 5 MB</div>
+                            </div>
+                          <!-- File input + button -->
+                            <div class="col-md-12">
+                                <label class="btn btn-primary mt-2 w-100">
+                                    Choose Image
+                                    <input type="file" name="image" accept="image/jpeg,image/png" hidden onchange="previewImage(this)">
+                                </label>
+                                <button class="btn btn-success mt-2 w-100" type="submit" name="update_image">Update Image</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -77,61 +77,54 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
         <!-- Account Details -->
         <div class="col-xl-8">
             <div class="card mb-4">
-                <div class="card-header mt-8 mb-10">Account Details</div>
+                <div class="card-header">Account Details</div>
                 <div class="card-body">
-                    <!-- ✅ Display user info in readonly inputs -->
-                    <form>
+                    <!-- Form 2: Customer details -->
+                    <form action="../admin/upload.php" method="POST">
                         <div class="row gx-3 mb-3">
                             <div class="col-md-6">
                                 <label class="small mb-1">First name</label>
-                                <input class="form-control readonly-input" type="text" 
-                                       value="<?php echo htmlspecialchars($fname); ?>" readonly>
+                                <input class="form-control" type="text" name="firstname" value="<?php echo htmlspecialchars($fname); ?>">
                             </div>
                             <div class="col-md-6">
                                 <label class="small mb-1">Last name</label>
-                                <input class="form-control readonly-input" type="text" 
-                                       value="<?php echo htmlspecialchars($lname); ?>" readonly>
+                                <input class="form-control" type="text" name="lastname" value="<?php echo htmlspecialchars($lname); ?>">
                             </div>
                         </div>
 
                         <div class="row gx-3 mb-3">
                             <div class="col-md-6">
                                 <label class="small mb-1">Address</label>
-                                <input class="form-control readonly-input" type="text" 
-                                       value="<?php echo htmlspecialchars($address); ?>" readonly>
+                                <input class="form-control" type="text" name="address" value="<?php echo htmlspecialchars($address); ?>">
                             </div>
                             <div class="col-md-6">
                                 <label class="small mb-1">City</label>
-                                <input class="form-control readonly-input" type="text" 
-                                       value="<?php echo htmlspecialchars($city); ?>" readonly>
+                                <input class="form-control" type="text" name="city" value="<?php echo htmlspecialchars($city); ?>">
                             </div>
                         </div>
 
                         <div class="row gx-3 mb-3">
                             <div class="col-md-6">
                                 <label class="small mb-1">Zip code</label>
-                                <input class="form-control readonly-input" type="text" 
-                                       value="<?php echo htmlspecialchars($zipcode); ?>" readonly>
+                                <input class="form-control" type="text" name="zipcode" value="<?php echo htmlspecialchars($zipcode); ?>">
                             </div>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="small mb-1">Username</label>
-                            <input class="form-control readonly-input" type="text" 
-                                   value="<?php echo htmlspecialchars($uname); ?>" readonly>
+                            <div class="col-md-6">
+                                <label class="small mb-1">Username</label>
+                                <input class="form-control" type="text" name="username" value="<?php echo htmlspecialchars($uname); ?>">
+                            </div>
                         </div>
 
                         <div class="row gx-3 mb-3">
                             <div class="col-md-6">
                                 <label class="small mb-1">Phone number</label>
-                                <input class="form-control readonly-input" type="tel" 
-                                       value="<?php echo htmlspecialchars($phone); ?>" readonly>
+                                <input class="form-control" type="tel" name="phone" value="<?php echo htmlspecialchars($phone); ?>">
                             </div>
                         </div>
-                         <button id="saveBtn" class="btn btn-success mt-2" type="submit" style="display:none;">
+
+                        <!-- Save button for details -->
+                        <button id="saveBtnDetails" class="btn btn-success mt-2" type="submit" name="update_profile">
                             Save Changes
                         </button>
-                        <!-- keep them here -->
                     </form>
                 </div>
             </div>
@@ -139,18 +132,14 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
     </div>
 </div>
 
-<?php
-include(BASE_PATH . 'includes/footer.php');
-?>
+<?php include(BASE_PATH . 'includes/footer.php'); ?>
 
-<!-- ✅ JS for live image preview -->
 <script>
 function previewImage(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
             document.getElementById('profilePreview').src = e.target.result;
-            document.getElementById('saveBtn').style.display = 'inline-block';
         };
         reader.readAsDataURL(input.files[0]);
     }

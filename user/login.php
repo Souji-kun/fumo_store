@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
         mysqli_stmt_fetch($stmt);
 
         // set session variables
-        $_SESSION['email']   = $user_email;
+        $_SESSION['email']   = $email;
         $_SESSION['user_id'] = $user_id;
         $_SESSION['role']    = $role;
 

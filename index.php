@@ -131,8 +131,8 @@ $plushies = getProducts('Plushies', 6);
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="plush-item-carousel">
-                        <div class="owl-plush-item owl-carousel"> 
+                    <div class="men-item-carousel">
+                        <div class="owl-men-item owl-carousel"> 
                             <?php echo displayProductCarousel($plushies, 'Plushies'); ?>
                         </div>
                     </div>

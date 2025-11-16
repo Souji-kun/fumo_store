@@ -11,7 +11,6 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
 ?>
 
 <div class="section-divider"></div>
-<div class="section-divider"></div>
 
 <div class="container-fluid container-lg">
     <?php include("../includes/alert.php"); ?>

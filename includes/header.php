@@ -3,6 +3,17 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once(__DIR__ . '/../includes/config.php'); // adjust path if needed
+
+$userEmail = null;
+if (isset($_SESSION['user_id'])) {
+    $stmt = $conn->prepare("SELECT email FROM users WHERE id=? LIMIT 1");
+    $stmt->bind_param("i", $_SESSION['user_id']);
+    $stmt->execute();
+    $stmt->bind_result($userEmail);
+    $stmt->fetch();
+    $stmt->close();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +43,7 @@ require_once(__DIR__ . '/../includes/config.php'); // adjust path if needed
     
     <link rel="stylesheet" href="/fumo_store2/assets/css/best-sellers.css">
 
-    <!-- <link rel="stylesheet" href="/fumo_store2/assets/css/plush.css"> -->
+    <link rel="stylesheet" href="/fumo_store2/assets/css/plush.css">
     
     <link rel="stylesheet" href="/fumo_store2/assets/css/section-divider.css">
 
@@ -96,7 +107,6 @@ https://templatemo.com/tm-571-hexashop
                             </ul>
                         </li>
 
-                        <!-- User Section -->
                         <li class="user-section">
                             <form action="<?php echo $baseUrl; ?>search.php" method="GET" class="search-area">
                                 <input type="text" name="search" placeholder="Search..." class="form-control">
@@ -106,9 +116,11 @@ https://templatemo.com/tm-571-hexashop
                             <?php if (!isset($_SESSION['user_id'])): ?>
                                 <a href="<?php echo $baseUrl; ?>user/login.php" class="login-link"><i class="fa fa-user"></i> Login</a>
                             <?php else: ?>
-                                <span class="username-area"><?php echo htmlspecialchars($_SESSION['email']); ?></span>
+                                <span class="username-area"><?php echo htmlspecialchars($userEmail); ?></span>
                                 <a href="<?php echo $baseUrl; ?>user/logout.php" class="login-link"><i class="fa fa-sign-out"></i> Logout</a>
                             <?php endif; ?>
+
+
 
                             <a href="<?php echo $baseUrl; ?>cart.php" class="cart-icon">
                                 <i class="fa fa-shopping-cart"></i> <span class="cart-count">0</span>

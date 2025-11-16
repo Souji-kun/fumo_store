@@ -1,5 +1,15 @@
 <?php
 require_once(__DIR__ . '/config.php'); // same folder
+
+$userEmail = null;
+if (isset($_SESSION['user_id'])) {
+    $stmt = $conn->prepare("SELECT email FROM users WHERE id=? LIMIT 1");
+    $stmt->bind_param("i", $_SESSION['user_id']);
+    $stmt->execute();
+    $stmt->bind_result($userEmail);
+    $stmt->fetch();
+    $stmt->close();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,12 +81,18 @@ require_once(__DIR__ . '/config.php'); // same folder
                                 </ul>
                             </li>
                             <li class="user-section">
-                                <div class="search-area">
-                                    <input type="text" placeholder="Search...">
-                                    <button><i class="fa fa-search"></i></button>
-                                </div>
-                                <a href="login.php" class="login-link"><i class="fa fa-user"></i></a>
-                                <span class="username-area"></span>
+                            <form action="<?php echo $baseUrl; ?>search.php" method="GET" class="search-area">
+                                <input type="text" name="search" placeholder="Search..." class="form-control">
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+
+                            <?php if (!isset($_SESSION['user_id'])): ?>
+                                <a href="<?php echo $baseUrl; ?>user/login.php" class="login-link"><i class="fa fa-user"></i> Login</a>
+                            <?php else: ?>
+                                <span class="username-area"><?php echo htmlspecialchars($userEmail); ?></span>
+                                <a href="<?php echo $baseUrl; ?>user/logout.php" class="login-link"><i class="fa fa-sign-out"></i> Logout</a>
+                            <?php endif; ?>
+
                                 <a href="cart.php" class="cart-icon"><i class="fa fa-shopping-cart"></i> <span class="cart-count">0</span></a>
                                 <a href="javascript:void(0)" class="sidebar-toggle"><i class="fa fa-bars"></i></a>
                             </li>

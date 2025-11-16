@@ -4,7 +4,7 @@
                 <div class="col-lg-3">
                     <div class="first-item">
                         <div class="logo">
-                            <img src="assets/images/fumo-white-logo.png" alt="Fumo Store">
+                            <img src="../assets/images/fumo-white-logo.png" alt="Fumo Store">
                         </div>
                         <ul>
                             <li><a href="#">123 Sample St, City, Country</a></li>
