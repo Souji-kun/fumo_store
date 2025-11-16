@@ -5,7 +5,6 @@ include('includes/product_functions.php');
 // Get latest products for each category
 $plushies = getProducts('Plushies', 6);
 ?>
-    <div class="section-divider"></div>
 
     <!-- ***** Main Banner Area Start ***** -->
     <div class="main-banner" id="top">
@@ -117,7 +116,6 @@ $plushies = getProducts('Plushies', 6);
     <!-- ***** Main Banner Area End ***** -->
 
     <div class="section-divider"></div>
-    
     <!-- ***** Plushie Area Starts ***** -->
     <section class="section" id="men">
         <div class="container">
@@ -133,8 +131,8 @@ $plushies = getProducts('Plushies', 6);
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="men-item-carousel">
-                        <div class="owl-men-item owl-carousel">
+                    <div class="plush-item-carousel">
+                        <div class="owl-plush-item owl-carousel"> 
                             <?php echo displayProductCarousel($plushies, 'Plushies'); ?>
                         </div>
                     </div>
@@ -142,7 +140,7 @@ $plushies = getProducts('Plushies', 6);
             </div>
         </div>
     </section>
-    <!-- ***** Men Area Ends ***** -->
+    <!-- ***** Plushie Area Ends ***** -->
 
     <div class="section-divider"></div>
 
@@ -224,7 +222,7 @@ $plushies = getProducts('Plushies', 6);
             <div class="row">
                 <div class="col-lg-12">
                     <div class="best-item-carousel">
-                        <div class="owl-men-item owl-carousel">
+                        <div class="owl-best-item owl-carousel">
                             <?php
                                 $best = getProducts('Best Sellers', 6);
                                 echo displayProductCarousel($best, 'Best Sellers');

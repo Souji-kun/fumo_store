@@ -1,7 +1,7 @@
 (function ($) {
 	
 	"use strict";
-	$('.owl-plush-item').owlCarousel({
+	$('.owl-men-item').owlCarousel({
 		items:5,
 		loop:true,
 		dots: true,
@@ -58,7 +58,7 @@
 		 }
 	 })
 
-	$('.owl-plush-item:last').owlCarousel({
+	$('.owl-men-item:last').owlCarousel({
 		items:5,
 		loop:true,
 		dots: true,
@@ -96,7 +96,7 @@
 		 }
 	 })
 
-	 $('.owl-plush-item').owlCarousel({
+	 $('.owl-men-item').owlCarousel({
 		items:5,
 		loop:true,
 		dots: true,
@@ -189,20 +189,25 @@
 	    });
 	});
 
-	function onScroll(event){
-	    var scrollPos = $(document).scrollTop();
-	    $('.nav a').each(function () {
-	        var currLink = $(this);
-	        var refElement = $(currLink.attr("href"));
-	        if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
-	            $('.nav ul li a').removeClass("active");
-	            currLink.addClass("active");
-	        }
-	        else{
-	            currLink.removeClass("active");
-	        }
-	    });
-	}
+function onScroll(event) {
+    var scrollPos = $(document).scrollTop();
+    $('.nav a').each(function () {
+        var currLink = $(this);
+        var refElement = $(currLink.attr("href"));
+        
+        if (refElement.length) { // ✅ Check if the element exists
+            var refTop = refElement.position().top;
+            var refBottom = refTop + refElement.height();
+
+            if (refTop <= scrollPos && refBottom > scrollPos) {
+                $('.nav ul li a').removeClass("active");
+                currLink.addClass("active");
+            } else {
+                currLink.removeClass("active");
+            }
+        }
+    });
+}
 
 
 	// Page loading animation

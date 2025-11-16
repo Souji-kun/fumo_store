@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once(__DIR__ . '/../includes/config.php'); // adjust path if needed
 ?>
 
@@ -25,18 +27,18 @@ require_once(__DIR__ . '/../includes/config.php'); // adjust path if needed
     <link rel="stylesheet" href="/fumo_store2/assets/css/templatemo-hexashop.css">
 
     <link rel="stylesheet" href="/fumo_store2/assets/css/owl-carousel.css">
+
+    <link rel="stylesheet" href="/fumo_store2/assets/css/custom-header.css">
     
     <link rel="stylesheet" href="/fumo_store2/assets/css/best-sellers.css">
 
-    <link rel="stylesheet" href="/fumo_store2/assets/css/plush.css">
+    <!-- <link rel="stylesheet" href="/fumo_store2/assets/css/plush.css"> -->
     
     <link rel="stylesheet" href="/fumo_store2/assets/css/section-divider.css">
 
     <link rel="stylesheet" href="/fumo_store2/assets/css/lightbox.css">
 
     <link rel="stylesheet" href="/fumo_store2/assets/css/sidebar.css">
-
-    <link rel="stylesheet" href="/fumo_store2/assets/css/custom-header.css">
 <!--
 
 TemplateMo 571 Hexashop
